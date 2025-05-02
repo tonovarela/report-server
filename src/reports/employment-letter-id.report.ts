@@ -1,5 +1,6 @@
 import type {  StyleDictionary, TDocumentDefinitions } from "pdfmake/interfaces";
 import { headerSection } from "./sections/header.section";
+import { DateFormatter } from "src/helpers";
 
 
 interface ReportOptions {
@@ -34,7 +35,7 @@ const style: StyleDictionary = {
 
 
 export const getEmploymentLetterReportById = (reportOptions:ReportOptions): TDocumentDefinitions => {
-    const { employerName,employeePosition,employeeName,employerPosition } = reportOptions;
+    const { employerName,employeePosition,employeeName,employerPosition,employeeStartDate,employeeWorkSchedule,empoyeeHours ,employerCompany} = reportOptions;
 
     const docDefinition: TDocumentDefinitions = {
         styles: style,
@@ -46,23 +47,22 @@ export const getEmploymentLetterReportById = (reportOptions:ReportOptions): TDoc
                 style: 'header'
             },            
             {
-                text: `Yo, ${reportOptions.employerName}, en mi calidad de ${reportOptions.employeePosition} de [Nombre de la Empresa],
-por medio de la presente certifico que [Nombre del Empleado] ha sido empleado en nuestra
-empresa desde el [Fecha de Inicio del Empleado].\n\n
-Durante su empleo, el Sr./Sra. [Nombre del Empleado] ha desempeñado el cargo de [Cargo del
-Empleado], demostrando responsabilidad, compromiso y habilidades profesionales en sus
+                text: `Yo, ${employerName}, en mi calidad de ${employerPosition} de ${employerCompany},
+por medio de la presente certifico que ${employeeName} ha sido empleado en nuestra
+empresa desde el ${employeeStartDate}.\n\n
+Durante su empleo, el Sr./Sra. ${employeeName} ha desempeñado el cargo de ${employeePosition}, demostrando responsabilidad, compromiso y habilidades profesionales en sus
 labores.\n\n
-La jornada laboral del Sr./ Sra. [Nombre del Empleado] es de [Número de Horas] horas
-semanales, con un horario de [Horario de Trabajo], cumpliendo con las políticas y
+La jornada laboral del Sr./ Sra. ${employeeName} es de ${empoyeeHours} horas
+semanales, con un horario de ${employeeWorkSchedule}, cumpliendo con las políticas y
 procedimientos establecidos por la empresa.\n\n
 Esta constancia se expide a solicitud del interesado para los fines que considere conveniente.`,
                 style: 'body'
             },
             { text: `Atentamente,`, style: 'signature' },
-            { text: `[Nombre del Empleador]`, style: 'signature' },
-            { text: `[Cargo del Empleador]`, style: 'signature' },
-            { text: `[Nombre de la Empresa]`, style: 'signature' },
-            { text: `[Fecha de Emisión]`, style: 'signature' },
+            { text: `${employerName}`, style: 'signature' },
+            { text: `${employerPosition}`, style: 'signature' },
+            { text: `Tucan Code`, style: 'signature' },
+            { text: `${DateFormatter.formatDate(new Date())}`, style: 'signature' },
         ],
         footer: {
             columns: [{

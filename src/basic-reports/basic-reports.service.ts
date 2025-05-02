@@ -2,7 +2,9 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import { getEmploymentLetterReport, getHelloWorldReport } from 'src/reports';
+import { getEmploymentLetterReport, getEmploymentLetterReportById, getHelloWorldReport } from 'src/reports';
+import { format } from 'path';
+import { DateFormatter } from 'src/helpers';
 
 
 
@@ -28,15 +30,21 @@ export class BasicReportsService {
     async employmentLetterById(employmentId: number) {
         const employeeDB= await this.prismaClient.employees.findFirst({
             where: { id: employmentId },
-        });
-        
+        });        
         if (!employeeDB) {
             throw new NotFoundException('Employee not found');            
         }
-        console.log(employeeDB);
+        const docDefinition: TDocumentDefinitions = getEmploymentLetterReportById({
+            employerName: "Marco Antonio",
+            employerPosition: "Gerente General",
+            employeeName: employeeDB.name,
+            employeePosition: employeeDB.position,
+            employeeStartDate:DateFormatter.formatDate(employeeDB.start_date) ,
+            empoyeeHours: employeeDB.hours_per_day.toString(),
+            employeeWorkSchedule: employeeDB.work_schedule,
+            employerCompany: "Tucan CODE S.A. de C.V.",
 
-
-        const docDefinition: TDocumentDefinitions = getEmploymentLetterReport();
+        });
         const doc = this.printerService.createPdf(docDefinition, {});
         return doc;
     }

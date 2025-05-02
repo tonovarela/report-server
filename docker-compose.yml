@@ -20,5 +20,5 @@ services:
       - "8080:80"
     environment:
       - PGADMIN_DEFAULT_PASSWORD=123456
-      - PGADMIN_DEFAULT_EMAIL=superman@google.com
+      - PGADMIN_DEFAULT_EMAIL=superman@uperman@google.com
     restart: always
