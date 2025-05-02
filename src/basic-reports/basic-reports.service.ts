@@ -3,8 +3,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getCountriesReport, getEmploymentLetterReport, getEmploymentLetterReportById, getHelloWorldReport } from 'src/reports';
-import { format } from 'path';
+
 import { DateFormatter } from 'src/helpers';
+
+
 
 
 
@@ -13,7 +15,7 @@ import { DateFormatter } from 'src/helpers';
 @Injectable()
 export class BasicReportsService {
 
-    constructor(private readonly prismaClient: PrismaService, private readonly printerService: PrinterService) { }
+    constructor(private readonly prismaService: PrismaService, private readonly printerService: PrinterService) { }
 
     async hello() {
         const docDefinition: TDocumentDefinitions = getHelloWorldReport({name:'Marco Antonio'});
@@ -28,7 +30,7 @@ export class BasicReportsService {
     }
 
     async employmentLetterById(employmentId: number) {
-        const employeeDB= await this.prismaClient.employees.findFirst({
+        const employeeDB= await this.prismaService.employees.findFirst({
             where: { id: employmentId },
         });        
         if (!employeeDB) {
@@ -50,7 +52,18 @@ export class BasicReportsService {
     }
 
     async countries() {
-        const docDefinition = getCountriesReport();        
+        const countries = await this.prismaService.countries.findMany({
+            where:{
+                local_name:{
+                    not: null
+                }
+            }
+        });
+        if (!countries) {
+            throw new NotFoundException('Countries not found');
+        }
+        //console.log(countries);
+        const docDefinition = getCountriesReport({title:'Countries Report', countries});        
         const doc = this.printerService.createPdf(docDefinition);    
         return doc;
     }
