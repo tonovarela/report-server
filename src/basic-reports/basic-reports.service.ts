@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import { getEmploymentLetterReport, getEmploymentLetterReportById, getHelloWorldReport } from 'src/reports';
+import { getCountriesReport, getEmploymentLetterReport, getEmploymentLetterReportById, getHelloWorldReport } from 'src/reports';
 import { format } from 'path';
 import { DateFormatter } from 'src/helpers';
 
@@ -46,6 +46,12 @@ export class BasicReportsService {
 
         });
         const doc = this.printerService.createPdf(docDefinition, {});
+        return doc;
+    }
+
+    async countries() {
+        const docDefinition = getCountriesReport();        
+        const doc = this.printerService.createPdf(docDefinition);    
         return doc;
     }
 
