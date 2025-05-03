@@ -139,6 +139,43 @@ exports.Prisma.CountriesScalarFieldEnum = {
   continent: 'continent'
 };
 
+exports.Prisma.CategoriesScalarFieldEnum = {
+  category_id: 'category_id',
+  category_name: 'category_name',
+  description: 'description'
+};
+
+exports.Prisma.CustomersScalarFieldEnum = {
+  customer_id: 'customer_id',
+  customer_name: 'customer_name',
+  contact_name: 'contact_name',
+  address: 'address',
+  city: 'city',
+  postal_code: 'postal_code',
+  country: 'country'
+};
+
+exports.Prisma.Order_detailsScalarFieldEnum = {
+  order_detail_id: 'order_detail_id',
+  order_id: 'order_id',
+  product_id: 'product_id',
+  quantity: 'quantity'
+};
+
+exports.Prisma.OrdersScalarFieldEnum = {
+  order_id: 'order_id',
+  customer_id: 'customer_id',
+  order_date: 'order_date'
+};
+
+exports.Prisma.ProductsScalarFieldEnum = {
+  product_id: 'product_id',
+  product_name: 'product_name',
+  category_id: 'category_id',
+  unit: 'unit',
+  price: 'price'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -165,7 +202,12 @@ exports.continents = exports.$Enums.continents = {
 
 exports.Prisma.ModelName = {
   employees: 'employees',
-  countries: 'countries'
+  countries: 'countries',
+  categories: 'categories',
+  customers: 'customers',
+  order_details: 'order_details',
+  orders: 'orders',
+  products: 'products'
 };
 
 /**

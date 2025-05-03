@@ -3,18 +3,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { PrinterService } from 'src/printer/printer.service';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getCountriesReport, getEmploymentLetterReport, getEmploymentLetterReportById, getHelloWorldReport } from 'src/reports';
-
 import { DateFormatter } from 'src/helpers';
-
-
-
-
-
-
 
 @Injectable()
 export class BasicReportsService {
-
     constructor(private readonly prismaService: PrismaService, private readonly printerService: PrinterService) { }
 
     async hello() {

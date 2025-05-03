@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { BasicReportsModule } from './basic-reports/basic-reports.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrinterModule } from './printer/printer.module';
+import { StoreReportsModule } from './store-reports/store-reports.module';
 
 
 @Module({
@@ -10,7 +11,8 @@ import { PrinterModule } from './printer/printer.module';
     ConfigModule.forRoot({isGlobal: true}),
     PrismaModule,
     BasicReportsModule,
-    PrinterModule,    
+    PrinterModule,
+    StoreReportsModule,    
   ],
   controllers: [],
   providers: [],
