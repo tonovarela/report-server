@@ -3,6 +3,7 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { getDonutChart } from './charts/donut.chart';
 import { headerSection } from './sections/header.section';
 import { footerSection } from './sections/footer.section';
+import { getLineChart } from './charts/line.char';
 
 interface TopCountry {
     country: string;
@@ -16,17 +17,20 @@ interface ReportOptions {
 export const statisticsReport = async (option: ReportOptions): Promise<TDocumentDefinitions> => {
     const { topCountries } = option;
 
-    const donutChart = await getDonutChart({
+    const promiseDonutChart = getDonutChart({
         position: 'left',
         entries: topCountries.map((country) => ({
             label: country.country,
             value: country.customers,
         }))
     });
+    const promiseLineChart = await getLineChart()
+
+    const [donutChart,lineChart] =  await Promise.all([promiseDonutChart, promiseLineChart]);
     const docDefinition: TDocumentDefinitions = {
         header:headerSection({ title:'Estadisticas', subtitle:'Gráficos y estadísticas de la tienda', showLogo:true, showDate:true }),
         footer:footerSection(),
-        pageMargins: [40, 100, 40, 60],
+        pageMargins: [40, 80, 40, 60],
         content: [
             {
                 columns: [
@@ -61,9 +65,24 @@ export const statisticsReport = async (option: ReportOptions): Promise<TDocument
                                 ]),
                             ]
                         }
-                    }
-                ],
+                    },                    
+                ],                
+                                                          
             },
+            {
+                image: lineChart,
+                 width:500,
+                 height:200,
+                 alignment: 'center',
+                
+
+                
+                //width: 300,
+                //height:300,
+                
+            },
+            
+            
         ],
         styles: {
             header: {

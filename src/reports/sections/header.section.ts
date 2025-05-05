@@ -34,6 +34,7 @@ export const headerSection =(options:HeaderOptions):Content=>{
         text: DateFormatter.formatDate(new Date()),
         alignment: 'right',
         margin: [20, 30],
+        fontSize:10,
         width:150
     } : null;
 
