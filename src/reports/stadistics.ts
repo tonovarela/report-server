@@ -4,6 +4,8 @@ import { getDonutChart } from './charts/donut.chart';
 import { headerSection } from './sections/header.section';
 import { footerSection } from './sections/footer.section';
 import { getLineChart } from './charts/line.char';
+import { getBarChart } from './charts/barchart';
+import { getPolarChart } from './charts/polarChart';
 
 interface TopCountry {
     country: string;
@@ -24,9 +26,11 @@ export const statisticsReport = async (option: ReportOptions): Promise<TDocument
             value: country.customers,
         }))
     });
-    const promiseLineChart = await getLineChart()
+    const promiseLineChart = getLineChart()
+    const promiseBarChart = getBarChart();
+    const promisePolarChart = getPolarChart();
+    const [donutChart,lineChart,barChart,polarChart] =  await Promise.all([promiseDonutChart, promiseLineChart,promiseBarChart,promisePolarChart]);
 
-    const [donutChart,lineChart] =  await Promise.all([promiseDonutChart, promiseLineChart]);
     const docDefinition: TDocumentDefinitions = {
         header:headerSection({ title:'Estadisticas', subtitle:'Gráficos y estadísticas de la tienda', showLogo:true, showDate:true }),
         footer:footerSection(),
@@ -73,13 +77,23 @@ export const statisticsReport = async (option: ReportOptions): Promise<TDocument
                 image: lineChart,
                  width:500,
                  height:200,
-                 alignment: 'center',
-                
-
-                
-                //width: 300,
-                //height:300,
-                
+                 alignment: 'center',                                                        
+            },            
+            {
+                columnGap:10,
+                columns:[
+                    {
+                        image: barChart,
+                        width: 250,                        
+                        alignment: 'center',
+                    },
+                    {
+                        image: polarChart,
+                        width: 250,                        
+                        alignment: 'center',
+                    },
+                    
+                ]
             },
             
             
