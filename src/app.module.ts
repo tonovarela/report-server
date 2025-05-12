@@ -4,6 +4,7 @@ import { BasicReportsModule } from './basic-reports/basic-reports.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrinterModule } from './printer/printer.module';
 import { StoreReportsModule } from './store-reports/store-reports.module';
+import { ExtraReportsModule } from './extra-reports/extra-reports.module';
 
 
 @Module({
@@ -12,7 +13,8 @@ import { StoreReportsModule } from './store-reports/store-reports.module';
     PrismaModule,
     BasicReportsModule,
     PrinterModule,
-    StoreReportsModule,    
+    StoreReportsModule,
+    ExtraReportsModule,    
   ],
   controllers: [],
   providers: [],
